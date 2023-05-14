@@ -120,5 +120,5 @@ class ClientsTab extends StatelessWidget {
         style: TextStyle(fontSize: 24),
       ),
     );
-  }
+  }   
 }
