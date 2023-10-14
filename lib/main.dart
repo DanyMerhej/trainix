@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:trainix/clients_screen.dart';
+import 'package:trainix/profile_screen.dart';
+import 'package:trainix/settings_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,8 +26,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 1;
-  final List<Widget> _widgetOptions = [ProfileTab(), ClientsTab()];
+  int _selectedIndex = 0; // Start with the "Profile" tab selected
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,6 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('TRAINIX'),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
+      body: _selectedIndex == 0
+          ? ProfileTab()
+          : _selectedIndex == 1
+          ? ClientsTab()
+          : SettingsTab(), // Show the appropriate tab based on the selected index
       drawer: Drawer(
         child: Column(
           children: [
@@ -60,26 +67,28 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               arrowColor: Colors.yellow,
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Implement settings screen
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.settings),
+            //   title: Text('Settings'),
+            //   onTap: () {
+            //     Navigator.pop(context); // Close the drawer
+            //     setState(() {
+            //       _selectedIndex = 2; // Set the selected index to the "Settings" tab
+            //     });
+            //   },
+            // ),
             Divider(),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () {
-                // TODO: Implement logout logic
+                Navigator.pop(context); // Close the drawer
+                // Handle logout logic here
               },
             ),
           ],
         ),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -90,6 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.people),
             label: 'Clients',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.yellow,
@@ -99,26 +112,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ProfileTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Profile Tab',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
-
-class ClientsTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Clients Tab',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
